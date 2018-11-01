@@ -55,8 +55,8 @@ class ImgFigure extends React.Component {
 
     //如果图片的旋转角度有值并且不为0， 添加旋转角度
     if (this.props.arrange.rotate) {
-      (['Moz', 'Ms', 'Webkit', '']).forEach((value) => {
-        styleObj[value + 'Transform'] = 'rotate(' + this.props.arrange.rotate + 'deg)';
+      (['MozTransform', 'msTransform', 'WebkitTransform', 'transform']).forEach((value) => {
+        styleObj[value] = 'rotate(' + this.props.arrange.rotate + 'deg)';
       })
     }
     if (this.props.arrange.isCenter) {
@@ -77,6 +77,36 @@ class ImgFigure extends React.Component {
           </div>
         </figcaption>
       </figure>
+    );
+  }
+}
+
+class ContollerUnit extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(e) {
+    if (this.props.arrange.isCenter) {
+      this.props.inverse();
+    } else {
+      this.props.center();
+    }
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
+  render() {
+    let controllerUnitClassName = 'controller-unit';
+    if (this.props.arrange.isCenter) {
+      controllerUnitClassName += ' is-center';
+      if (this.props.arrange.isInverse) {
+        controllerUnitClassName += ' is-inverse';
+      }
+    }
+    return (
+      <span className={controllerUnitClassName} onClick={this.handleClick}></span>
     );
   }
 }
@@ -236,6 +266,9 @@ class AppComponent extends React.Component {
         isCenter: false
       };
     }
+
+    //debugger;
+
     if (imgsArrangTopArr && imgsArrangTopArr[0]) {
       imgsArrangeArr.splice(topImgSpiceIndex, 0, imgsArrangTopArr[0]);
     }
@@ -303,6 +336,9 @@ class AppComponent extends React.Component {
                                  arrange={this.state.imgsArrangeArr[index]} 
                                  inverse={this.inverse(index)} 
                                  center={this.center(index)}/>);
+      controllerUnits.push(<ContollerUnit key={index} arrange={this.state.imgsArrangeArr[index]}
+                                          inverse={this.inverse(index)}
+                                          center={this.center(index)}/>);
     });
     return (
       <section className="stage" ref="stage">
