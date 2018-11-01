@@ -27,9 +27,6 @@ function getDefaultModules() {
       {
         test: /\.css$/,
         loader: 'style-loader!css-loader',
-        options: {
-          modules: true
-        }
       },
       {
         test: /\.sass/,
