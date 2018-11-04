@@ -73,7 +73,7 @@ class ImgFigure extends React.Component {
         <figcaption>
           <h2 className="img-title">{this.props.data.title}</h2>
           <div className="img-back" onClick={this.handleClick} >
-            <p>{this.props.data.title}</p>
+            <p>{this.props.data.desc}</p>
           </div>
         </figcaption>
       </figure>
